@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMS Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body style="display: none;" id="dashboardBody"> <!-- Hidden until authed -->
+
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <h2>TMS Admin</h2>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-item active" data-target="dashboard">Dashboard</a></li>
+                <li><a href="#" class="nav-item" data-target="drivers">Drivers</a></li>
+                <li><a href="#" class="nav-item" data-target="vehicles">Vehicles</a></li>
+                <li><a href="#" class="nav-item" data-target="routes">Routes</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="header">
+                <h1 id="pageTitle">Overview</h1>
+                <div>
+                    <span id="adminNameDisplay" style="margin-right: 15px; font-weight: 500;">Admin</span>
+                    <button id="logoutBtn" class="logout-btn">Logout</button>
+                </div>
+            </header>
+
+            <!-- Dashboard Stats View -->
+            <section id="dashboard" class="section-panel active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Total Vehicles</div>
+                        <div class="stat-value" id="stat-total-vehicles">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Total Drivers</div>
+                        <div class="stat-value" id="stat-total-drivers">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Available Vehicles</div>
+                        <div class="stat-value" id="stat-available-vehicles">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Assigned (On Route)</div>
+                        <div class="stat-value" id="stat-assigned-vehicles">0</div>
+                    </div>
+                </div>
+                <h3>Recent System Activity</h3>
+                <p style="color: #6b7280; margin-top: 10px;">Select an option from the sidebar to manage Drivers,
+                    Vehicles, or assign Routes.</p>
+            </section>
+
+            <!-- Drivers View -->
+            <section id="drivers" class="section-panel">
+                <div class="panel-header">
+                    <h2>Manage Drivers</h2>
+                    <button class="btn btn-small" onclick="openModal('driverModal')">+ Add Driver</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>License Number</th>
+                            <th>Address</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="driversTableBody">
+                        <!-- Populated via JS -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Vehicles View -->
+            <section id="vehicles" class="section-panel">
+                <div class="panel-header">
+                    <h2>Manage Vehicles</h2>
+                    <button class="btn btn-small" onclick="openModal('vehicleModal')">+ Add Vehicle</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vehicle No.</th>
+                            <th>Type</th>
+                            <th>Capacity</th>
+                            <th>Status</th>
+                            <th>Assigned Driver</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vehiclesTableBody">
+                        <!-- Populated via JS -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Routes View -->
+            <section id="routes" class="section-panel">
+                <div class="panel-header">
+                    <h2>Manage Routes</h2>
+                    <button class="btn btn-small" onclick="openModal('routeModal')">+ Assign Route</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Route Name</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Assigned Vehicle</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="routesTableBody">
+                        <!-- Populated via JS -->
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Add Driver Modal -->
+    <div id="driverModal" class="modal-backdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Driver</h3>
+                <button class="close-btn" onclick="closeModal('driverModal')">&times;</button>
+            </div>
+            <form id="driverForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="driverName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" id="driverPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>License Number</label>
+                    <input type="text" id="driverLicense" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="driverAddress">
+                </div>
+                <button type="submit" class="btn">Save Driver</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Vehicle Modal -->
+    <div id="vehicleModal" class="modal-backdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Vehicle</h3>
+                <button class="close-btn" onclick="closeModal('vehicleModal')">&times;</button>
+            </div>
+            <form id="vehicleForm">
+                <div class="form-group">
+                    <label>Vehicle Number</label>
+                    <input type="text" id="vehicleNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>Type (Bus, Truck, etc)</label>
+                    <input type="text" id="vehicleType" required>
+                </div>
+                <div class="form-group">
+                    <label>Capacity</label>
+                    <input type="number" id="vehicleCapacity" required>
+                </div>
+                <div class="form-group">
+                    <label>Assign Driver</label>
+                    <select id="vehicleDriverSelect">
+                        <option value="">-- No Driver Assigned --</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Save Vehicle</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Route Modal -->
+    <div id="routeModal" class="modal-backdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Assign New Route</h3>
+                <button class="close-btn" onclick="closeModal('routeModal')">&times;</button>
+            </div>
+            <form id="routeForm">
+                <div class="form-group">
+                    <label>Route Name / ID</label>
+                    <input type="text" id="routeName" required>
+                </div>
+                <div class="form-group">
+                    <label>Source (From)</label>
+                    <input type="text" id="routeSource" required>
+                </div>
+                <div class="form-group">
+                    <label>Destination (To)</label>
+                    <input type="text" id="routeDestination" required>
+                </div>
+                <div class="form-group">
+                    <label>Assign Vehicle (Available Only)</label>
+                    <select id="routeVehicleSelect" required>
+                        <option value="">-- Select Available Vehicle --</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Assign Route</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
